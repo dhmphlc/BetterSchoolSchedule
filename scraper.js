@@ -1,5 +1,3 @@
-const { raw } = require('body-parser');
-const { it } = require('node:test');
 const puppeteer = require('puppeteer');
 
 async function scrapeData(selectedDate, courseYear) {
