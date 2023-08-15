@@ -2,7 +2,7 @@ const express = require('express');
 const scraper = require('./scraper');
 
 const app = express();
-const port = 8000;
+const port = process.env.PORT || 8080;
 
 // Serve static files from the "public" directory
 app.use(express.static('public'));
@@ -28,5 +28,5 @@ app.get('/scrape', async (req, res) => {
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Server running on http://127.0.0.1:${port}`);
+  console.log(`Server running on port: ${port}`);
 });
