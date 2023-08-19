@@ -7,7 +7,9 @@ async function scrapeData(selectedDate, courseYear) {
     const year = date.getFullYear();
     const url = `https://rapla.scng.si/rapla/rapla?page=calendar&user=admin&file=` + courseYear + `IR&day=${dayOfMonth}&month=${month}&year=${year}`;
 
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        headless: 'new', // Use the new Headless mode
+    });
     const page = await browser.newPage();
     await page.goto(url);
     const tdElements = await page.$$("span.tooltip");
@@ -161,7 +163,7 @@ async function scrapeData(selectedDate, courseYear) {
                 }
             }
         }
-    }else if (courseYear == 2){
+    } else if (courseYear == 2) {
         for (i = 0; i < data.length; i++) {
             const day1 = data[i].split(" ")[0];
             const day2 = data[i].split(" ")[3];
