@@ -85,6 +85,7 @@ async function scrapeData(selectedDate, courseYear) {
             text = text.replace("UPK redni 2. letnikMEH izredni 3. ciklus,UPK izredni 1. ciklus,,INF izredni 3. ciklus,UPK izredni 2. ciklus 2sk,INF izredni 1. ciklus,MEH redni 1. letnik 2sk,MEH izredni 1. ciklus,MEH redni 2. letnik 2sk,MEH izredni 2. ciklus,,UPK izredni 3. ciklus 1sk ", "");
             text = text.replace("MEH izredni 3. ciklusUPK redni 2. letnik,UPK izredni 1. ciklus,,INF izredni 3. ciklus,UPK izredni 2. ciklus 2sk,INF izredni 1. ciklus,MEH redni 1. letnik 2sk,MEH izredni 1. ciklus,MEH redni 2. letnik 2sk,MEH izredni 2. ciklus,,UPK izredni 3. ciklus 1sk ", "")
             data.push(text);
+            console.log(text);
         })
     );
 
