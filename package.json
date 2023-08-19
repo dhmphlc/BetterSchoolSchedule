@@ -111,7 +111,7 @@
     "proxy-from-env": "^1.1.0",
     "pump": "^3.0.0",
     "puppeteer": "^21.1.0",
-    "puppeteer-core": "^19.5.2",
+    "puppeteer-core": "^19.11.1",
     "qs": "^6.11.0",
     "range-parser": "^1.2.1",
     "raw-body": "^2.5.1",

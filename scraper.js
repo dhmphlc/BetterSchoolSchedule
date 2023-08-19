@@ -7,8 +7,11 @@ async function scrapeData(selectedDate, courseYear) {
     const year = date.getFullYear();
     const url = `https://rapla.scng.si/rapla/rapla?page=calendar&user=admin&file=` + courseYear + `IR&day=${dayOfMonth}&month=${month}&year=${year}`;
 
+    // const browser = await puppeteer.launch({
+    //     headless: 'new', // Use the new Headless mode
+    // });
     const browser = await puppeteer.launch({
-        headless: 'new', // Use the new Headless mode
+        executablePath: undefined, // Automatically locate bundled Chromium
     });
     const page = await browser.newPage();
     await page.goto(url);
