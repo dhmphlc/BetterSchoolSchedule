@@ -140,6 +140,8 @@ input:checked+.slider:before {
 .groupTwo {
     display: flex;
     min-width: 20%;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .dayCol {
@@ -181,6 +183,7 @@ input:checked+.slider:before {
     float: left;
     border-radius: 10px;
     background-color: #a3ddff;
+    font-size: 14px;
 }
 
 .pill {

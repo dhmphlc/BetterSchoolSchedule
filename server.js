@@ -21,10 +21,8 @@ app.get('/scrape', async (req, res) => {
     // Return the scraping result to the frontend
     res.send(response);
   } catch (error) {
-    console.error('Error occurred during scraping:', error);
-    console.log(error)
-    let jsonError = JSON.parse(error);
-    res.status(500).send(jsonError);
+    console.error('Error getting data:', error);
+    res.status(500).send(error);
   }
 });
 

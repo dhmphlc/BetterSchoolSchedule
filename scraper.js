@@ -2,7 +2,6 @@ const puppeteer = require('puppeteer');
 require("dotenv").config();
 
 async function scrapeData(selectedDate, courseYear) {
-    console.log("SCRAPING STARTED...")
     date = new Date(selectedDate);
     const dayOfMonth = date.getDate();
     const month = date.getMonth() + 1;
@@ -11,17 +10,18 @@ async function scrapeData(selectedDate, courseYear) {
 
     const browser = await puppeteer.launch({
         args: [
-          "--disable-setuid-sandbox",
-          "--no-sandbox",
-          "--single-process",
-          "--no-zygote",
+            "--disable-setuid-sandbox",
+            "--no-sandbox",
+            "--single-process",
+            "--no-zygote",
         ],
+        headless: "new",
         executablePath:
-          process.env.NODE_ENV === "production"
-            ? process.env.PUPPETEER_EXECUTABLE_PATH
-            : puppeteer.executablePath(),
-      });
-    
+            process.env.NODE_ENV === "production"
+                ? process.env.PUPPETEER_EXECUTABLE_PATH
+                : puppeteer.executablePath(),
+    });
+
     const page = await browser.newPage();
     await page.goto(url);
     const tdElements = await page.$$("span.tooltip");
@@ -97,7 +97,6 @@ async function scrapeData(selectedDate, courseYear) {
             text = text.replace("UPK redni 2. letnikMEH izredni 3. ciklus,UPK izredni 1. ciklus,,INF izredni 3. ciklus,UPK izredni 2. ciklus 2sk,INF izredni 1. ciklus,MEH redni 1. letnik 2sk,MEH izredni 1. ciklus,MEH redni 2. letnik 2sk,MEH izredni 2. ciklus,,UPK izredni 3. ciklus 1sk ", "");
             text = text.replace("MEH izredni 3. ciklusUPK redni 2. letnik,UPK izredni 1. ciklus,,INF izredni 3. ciklus,UPK izredni 2. ciklus 2sk,INF izredni 1. ciklus,MEH redni 1. letnik 2sk,MEH izredni 1. ciklus,MEH redni 2. letnik 2sk,MEH izredni 2. ciklus,,UPK izredni 3. ciklus 1sk ", "")
             data.push(text);
-            console.log(text);
         })
     );
 
@@ -118,101 +117,110 @@ async function scrapeData(selectedDate, courseYear) {
         friday: []
     };
 
-    if (courseYear == 1) {
-        for (i = 0; i < data.length / 2; i++) {
-            const day1 = data[i].split(" ")[0];
-            const day2 = data[i].split(" ")[3];
-            if (day1 == "Mon" && day2 == "Fri") {
-                groupOne.monday.push(data[i]);
-                groupOne.tuesday.push(data[i]);
-                groupOne.wednesday.push(data[i]);
-                groupOne.thursday.push(data[i]);
-                groupOne.friday.push(data[i]);
-            } else {
-                const day = data[i].split(" ")[0];
-                if (day == "Mon") {
+    if (data.length > 0) {
+        if (courseYear == 1) {
+            for (i = 0; i < data.length / 2; i++) {
+                let day1 = "";
+                let day2 = "";
+                if (data[i] != null){
+                    day1 = data[i].split(" ")[0];
+                    day2 = data[i].split(" ")[3];
+                }
+                if (day1 == "Mon" && day2 == "Fri") {
                     groupOne.monday.push(data[i]);
-                }
-                else if (day == "Tue") {
                     groupOne.tuesday.push(data[i]);
-                }
-                else if (day == "Wed") {
                     groupOne.wednesday.push(data[i]);
-                }
-                else if (day == "Thu") {
                     groupOne.thursday.push(data[i]);
-                }
-                else if (day == "Fri") {
                     groupOne.friday.push(data[i]);
+                } else {
+                    const day = data[i].split(" ")[0];
+                    if (day == "Mon") {
+                        groupOne.monday.push(data[i]);
+                    }
+                    else if (day == "Tue") {
+                        groupOne.tuesday.push(data[i]);
+                    }
+                    else if (day == "Wed") {
+                        groupOne.wednesday.push(data[i]);
+                    }
+                    else if (day == "Thu") {
+                        groupOne.thursday.push(data[i]);
+                    }
+                    else if (day == "Fri") {
+                        groupOne.friday.push(data[i]);
+                    }
                 }
-            }
 
-        }
-        for (i = data.length / 2; i < data.length; i++) {
-            const day1 = data[i].split(" ")[0];
-            const day2 = data[i].split(" ")[3];
-            if (day1 == "Mon" && day2 == "Fri") {
-                groupTwo.monday.push(data[i]);
-                groupTwo.tuesday.push(data[i]);
-                groupTwo.wednesday.push(data[i]);
-                groupTwo.thursday.push(data[i]);
-                groupTwo.friday.push(data[i]);
-            } else {
-                const day = data[i].split(" ")[0];
-                if (day == "Mon") {
+            }
+            for (i = data.length / 2; i < data.length; i++) {
+                i = Math.ceil(i);
+                let day1 = "";
+                let day2 = "";
+                if (data[i] != null){
+                    day1 = data[i].split(" ")[0];
+                    day2 = data[i].split(" ")[3];
+                }
+                if (day1 == "Mon" && day2 == "Fri") {
                     groupTwo.monday.push(data[i]);
-                }
-                else if (day == "Tue") {
                     groupTwo.tuesday.push(data[i]);
-                }
-                else if (day == "Wed") {
                     groupTwo.wednesday.push(data[i]);
-                }
-                else if (day == "Thu") {
                     groupTwo.thursday.push(data[i]);
-                }
-                else if (day == "Fri") {
                     groupTwo.friday.push(data[i]);
+                } else {
+                    let day = "";
+                    if (data[i] != null) {
+                        day = data[i].split(" ")[0];
+                    }
+                    if (day == "Mon") {
+                        groupTwo.monday.push(data[i]);
+                    }
+                    else if (day == "Tue") {
+                        groupTwo.tuesday.push(data[i]);
+                    }
+                    else if (day == "Wed") {
+                        groupTwo.wednesday.push(data[i]);
+                    }
+                    else if (day == "Thu") {
+                        groupTwo.thursday.push(data[i]);
+                    }
+                    else if (day == "Fri") {
+                        groupTwo.friday.push(data[i]);
+                    }
                 }
             }
-        }
-    } else if (courseYear == 2) {
-        for (i = 0; i < data.length; i++) {
-            const day1 = data[i].split(" ")[0];
-            const day2 = data[i].split(" ")[3];
-            if (day1 == "Mon" && day2 == "Fri" || day2 == "Thu") {
-                groupOne.monday.push(data[i]);
-                groupOne.tuesday.push(data[i]);
-                groupOne.wednesday.push(data[i]);
-                groupOne.thursday.push(data[i]);
-                groupOne.friday.push(data[i]);
-            } else {
-                const day = data[i].split(" ")[0];
-                if (day == "Mon") {
+        } else if (courseYear == 2) {
+            for (i = 0; i < data.length; i++) {
+                const day1 = data[i].split(" ")[0];
+                const day2 = data[i].split(" ")[3];
+                if (day1 == "Mon" && day2 == "Fri" || day2 == "Thu") {
                     groupOne.monday.push(data[i]);
-                }
-                else if (day == "Tue") {
                     groupOne.tuesday.push(data[i]);
-                }
-                else if (day == "Wed") {
                     groupOne.wednesday.push(data[i]);
-                }
-                else if (day == "Thu") {
                     groupOne.thursday.push(data[i]);
-                }
-                else if (day == "Fri") {
                     groupOne.friday.push(data[i]);
+                } else {
+                    const day = data[i].split(" ")[0];
+                    if (day == "Mon") {
+                        groupOne.monday.push(data[i]);
+                    }
+                    else if (day == "Tue") {
+                        groupOne.tuesday.push(data[i]);
+                    }
+                    else if (day == "Wed") {
+                        groupOne.wednesday.push(data[i]);
+                    }
+                    else if (day == "Thu") {
+                        groupOne.thursday.push(data[i]);
+                    }
+                    else if (day == "Fri") {
+                        groupOne.friday.push(data[i]);
+                    }
                 }
-            }
 
+            }
         }
     }
 
-
-
-    // Output
-    // console.log('groupOne:', groupOne);
-    // console.log('groupTwo:', groupTwo);
     browser.close();
     return { groupOne, groupTwo };
 }
