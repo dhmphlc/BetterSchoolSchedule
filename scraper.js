@@ -8,16 +8,18 @@ async function scrapeData(selectedDate, courseYear) {
     const year = date.getFullYear();
     const url = `https://rapla.scng.si/rapla/rapla?page=calendar&user=admin&file=` + courseYear + `IR&day=${dayOfMonth}&month=${month}&year=${year}`;
 
-    const browser = await puppeteer.launch({
-        headless: true, // Use the new Headless mode
-        args: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-        ]
-    });
+    // const browser = await puppeteer.launch({
+    //     headless: true, // Use the new Headless mode
+    //     args: [
+    //         '--no-sandbox',
+    //         '--disable-setuid-sandbox',
+    //     ]
+    // });
     // const browser = await puppeteer.launch({
     //     executablePath: undefined, // Automatically locate bundled Chromium
     // });
+    const browserURL = 'http://127.0.0.1:21222';
+    const browser = await puppeteer.connect({browserURL});  
     const page = await browser.newPage();
     await page.goto(url);
     const tdElements = await page.$$("span.tooltip");
