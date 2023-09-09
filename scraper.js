@@ -22,10 +22,25 @@ async function scrapeData(selectedDate, courseYear) {
                 : puppeteer.executablePath(),
     });
 
+    let tdElements;
     const page = await browser.newPage();
     await page.goto(url);
-    await page.waitForNavigation({ waitUntil: 'load' });
-    const tdElements = await page.$$("span.tooltip");
+    try {
+        await page.waitForNavigation({ timeout: 1000 });
+    } catch (error) {
+        if (error instanceof puppeteer.errors.TimeoutError) {
+            console.log('Navigation timed out after 1 seconds.');
+        } else {
+            throw error;
+        }
+    }
+
+    // await page.waitForNavigation({ waitUntil: 'load' });
+    // page.on('framenavigated', async frame => {
+    //     if (frame !== page.mainFrame())
+    //       return;
+    //     })
+    tdElements = await page.$$("span.tooltip");
     let data = [];
     await Promise.all(
         tdElements.map(async (td) => {
