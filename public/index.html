@@ -121,6 +121,14 @@
         selectedDate = new Date().toISOString().slice(0, 10);
         document.getElementById('datepicker').value = selectedDate;
       }
+
+      selectedDate = new Date(selectedDate);
+      let d = selectedDate.getDate();
+      let m = selectedDate.getMonth()+1;
+      let y = selectedDate.getFullYear();
+
+      selectedDate = y + "-" + m + "-" + d;
+
       loadingPopup.style.display = 'flex';
       fetch(`/scrape?date=${selectedDate}&year=${courseYear}`)
         .then(response => response.text())
