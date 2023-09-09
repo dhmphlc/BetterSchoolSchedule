@@ -9,7 +9,7 @@ async function scrapeData(selectedDate, courseYear) {
     const url = `https://rapla.scng.si/rapla/rapla?page=calendar&user=admin&file=` + courseYear + `IR&day=${dayOfMonth}&month=${month}&year=${year}`;
 
     const browser = await puppeteer.launch({
-        headless: 'new', // Use the new Headless mode
+        headless: true, // Use the new Headless mode
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
