@@ -24,22 +24,11 @@ async function scrapeData(selectedDate, courseYear) {
 
     let tdElements;
     const page = await browser.newPage();
-    await page.goto(url);
-    try {
-        await page.waitForNavigation({ timeout: 1000 });
-    } catch (error) {
-        if (error instanceof puppeteer.errors.TimeoutError) {
-            console.log('Navigation timed out after 1 seconds.');
-        } else {
-            throw error;
-        }
-    }
-
-    // await page.waitForNavigation({ waitUntil: 'load' });
-    // page.on('framenavigated', async frame => {
-    //     if (frame !== page.mainFrame())
-    //       return;
-    //     })
+    await page
+        .goto(url, {
+            waitUntil: "load",
+        })
+        .catch((err) => console.log("error loading url", err));
     tdElements = await page.$$("span.tooltip");
     let data = [];
     await Promise.all(
@@ -138,7 +127,7 @@ async function scrapeData(selectedDate, courseYear) {
             for (i = 0; i < data.length / 2; i++) {
                 let day1 = "";
                 let day2 = "";
-                if (data[i] != null){
+                if (data[i] != null) {
                     day1 = data[i].split(" ")[0];
                     day2 = data[i].split(" ")[3];
                 }
@@ -172,7 +161,7 @@ async function scrapeData(selectedDate, courseYear) {
                 i = Math.ceil(i);
                 let day1 = "";
                 let day2 = "";
-                if (data[i] != null){
+                if (data[i] != null) {
                     day1 = data[i].split(" ")[0];
                     day2 = data[i].split(" ")[3];
                 }
