@@ -24,6 +24,7 @@ async function scrapeData(selectedDate, courseYear) {
 
     const page = await browser.newPage();
     await page.goto(url);
+    await page.waitForNavigation({ waitUntil: 'load' });
     const tdElements = await page.$$("span.tooltip");
     let data = [];
     await Promise.all(
