@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 
 async function scrapeData(selectedDate, courseYear) {
+    console.log("SCRAPING STARTED...")
     date = new Date(selectedDate);
     const dayOfMonth = date.getDate();
     const month = date.getMonth() + 1;

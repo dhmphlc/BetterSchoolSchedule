@@ -21,7 +21,6 @@ app.get('/scrape', async (req, res) => {
     // Return the scraping result to the frontend
     res.send(response);
   } catch (error) {
-    console.log("SOMETHING IS WRONG HERE?")
     console.error('Error occurred during scraping:', error);
     console.log(error)
     let jsonError = JSON.parse(error);
