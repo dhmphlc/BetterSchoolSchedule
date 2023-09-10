@@ -12,8 +12,6 @@ async function scrapeData(selectedDate, courseYear) {
         args: [
             "--disable-setuid-sandbox",
             "--no-sandbox",
-            // "--single-process",
-            // "--no-zygote",
         ],
         headless: "new",
         executablePath:
