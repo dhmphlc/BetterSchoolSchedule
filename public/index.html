@@ -6,7 +6,6 @@
   <link rel="shortcut icon" href="favicon/favicon.ico" type="image/x-icon">
   <title>[BETA] VSŠ Urnik - Informatika</title>
   <meta charset="UTF-8">
-  <script src="script.js"></script>
   <link rel="stylesheet" href="style.css">
   <script src="https://kit.fontawesome.com/a796a3932f.js" crossorigin="anonymous"></script>
 </head>
@@ -59,6 +58,7 @@
     window.onload = function () {
       const yearSwitch = document.getElementById('yearSwitch');
       const request = indexedDB.open('scheduleDatabase', 1);
+      var courseYear = 1;
 
       // Handle database open or upgrade
       request.onupgradeneeded = event => {
@@ -78,6 +78,9 @@
         getRequest.onsuccess = () => {
           if (getRequest.result) {
             yearSwitch.checked = getRequest.result.checked;
+            if (getRequest.result.checked == true){
+              courseYear = 2;
+            }
           }
         };
       };
@@ -87,10 +90,13 @@
         console.error('Error opening database', event.target.error);
       };
 
-      scrapeData(2);
+      setTimeout(() => {
+        scrapeData(2, courseYear);
+      }, 500);
+
     }
 
-    function scrapeData(searchOrToday) {
+    function scrapeData(searchOrToday, courseYear) {
       const loadingPopup = document.getElementById('loadingPopup');
       let selectedDate
       if (searchOrToday == 0) { // -8 days
@@ -110,11 +116,6 @@
         document.getElementById('datepicker').value = selectedDate;
       }
 
-      let courseYear = 1;
-      const yearSwitch = document.getElementById("yearSwitch").checked;
-      if (yearSwitch) {
-        courseYear = 2;
-      }
       let data = null;
       if (selectedDate === '') {
         selectedDate = new Date().toISOString().slice(0, 10);
@@ -459,7 +460,13 @@
       };
 
       const putRequest = objectStore.put(checkboxState);
-      scrapeData(2);
+
+      let courseYear = 1;
+      if (event.target.checked){
+        courseYear = 2;
+      }
+
+      scrapeData(2, courseYear);
     });
 
   </script>
